@@ -8,7 +8,7 @@ import { useMovies } from "./useMovies";
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const KEY = "f84fc31d";
+const KEY = "3c16e4ee";
 
 export default function App() {
   // State management for query, selectedId, movies, and watched
