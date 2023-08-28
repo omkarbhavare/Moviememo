@@ -4,12 +4,14 @@ import { useKey } from "./useKey";
 import { useLocalStorageState } from "./useLocalStorageState";
 import { useMovies } from "./useMovies";
 
+// Calculate the average of an array
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 const KEY = "f84fc31d";
 
 export default function App() {
+  // State management for query, selectedId, movies, and watched
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const { movies, isLoading, error } = useMovies(query);
@@ -34,14 +36,16 @@ export default function App() {
 
   return (
     <>
+      {/* Navigation bar */}
       <NavBar>
         <Search query={query} setQuery={setQuery} />
         <NumResults movies={movies} />
       </NavBar>
 
+      {/* Main content */}
       <Main>
+        {/* Search results or loading animation */}
         <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
           {!isLoading && !error && (
             <MovieList movies={movies} onSelectMovie={handleSelectMovie} />
@@ -49,6 +53,7 @@ export default function App() {
           {error && <ErrorMessage message={error} />}
         </Box>
 
+        {/* Display selected movie details or watched movies */}
         <Box>
           {selectedId ? (
             <MovieDetails
@@ -64,6 +69,7 @@ export default function App() {
                 watched={watched}
                 onDeleteWatched={handleDeleteWatched}
               />
+              {/* Clear all watched movies */}
               <div className="rating">
                 {watched.length !== 0 ? (
                   <button className="btn-add" onClick={() => setWatched([])}>
@@ -80,6 +86,8 @@ export default function App() {
     </>
   );
 }
+
+// Loader component for showing loading animation
 
 function Loader() {
   return (
@@ -113,8 +121,8 @@ function NavBar({ children }) {
 function Logo() {
   return (
     <div className="logo">
-      <span role="img">🍿</span>
-      <h1>usePopcorn</h1>
+      <span role="img">🎞️</span>
+      <h1>MovieMemo</h1>
     </div>
   );
 }
@@ -271,7 +279,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
       document.title = `Movie | ${title}`;
 
       return function () {
-        document.title = "usePopcorn";
+        document.title = "MovieMemo";
         // console.log(`Clean up effect for movie ${title}`);
       };
     },
